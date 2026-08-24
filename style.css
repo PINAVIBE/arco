@@ -1,203 +1,97 @@
 :root {
-  --pink-bg: #fbe3ea;
-  --pink-window: #f7c9d6;
-  --pink-ribbon: #fddbe6;
-  --coral: #d9707f;
-  --accent: #e8536b;
-  --ink: #2b2129;
-  --cream: #fff6f2;
-  --shadow: rgba(180, 60, 90, 0.35);
+  --sky-top: #fde8d8;
+  --sky-bottom: #ffd7c2;
+  --ground: #4f7942;
+  --ground-dark: #3a5c30;
+  --stem: #3f8f4f;
+  --leaf: #4fa860;
+  --petal-outer: #e0405a;
+  --petal-mid: #f0546b;
+  --petal-front: #ff6b81;
 }
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at 30% 20%, #2a1520, #150a10 70%);
   overflow: hidden;
-  position: relative;
+  background: var(--sky-bottom);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
 }
 
-/* corazones flotando de fondo */
-.floating-hearts {
+.sky {
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  background: linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-bottom) 70%);
   z-index: 0;
 }
-.floating-hearts span {
-  position: absolute;
-  bottom: -10%;
-  color: var(--accent);
-  opacity: 0.55;
-  animation: floatUp linear infinite;
-  font-size: 18px;
-}
-@keyframes floatUp {
-  to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
-}
 
-/* ventana estilo app */
-.window {
-  position: relative;
-  z-index: 1;
-  width: min(92vw, 380px);
-  background: var(--pink-window);
-  border: 4px solid var(--coral);
-  border-radius: 16px;
-  box-shadow: 0 20px 50px var(--shadow);
-  overflow: hidden;
-  animation: pop .5s ease;
-}
-@keyframes pop {
-  from { transform: scale(.9); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-.titlebar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  background: var(--pink-ribbon);
-  border-bottom: 3px solid var(--coral);
-}
-.dots { display: flex; gap: 6px; }
-.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.dot-red { background: #ef6f6f; }
-.dot-yellow { background: #f0c96b; }
-.dot-green { background: #8fcf8a; }
-.window-title {
-  flex: 1;
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--ink);
-  font-size: 14px;
-}
-.window-spacer { width: 40px; }
-
-.ribbon {
-  text-align: center;
-  padding: 10px 0;
-  background: var(--pink-ribbon);
-  color: var(--accent);
-  letter-spacing: 10px;
-  font-size: 14px;
-  border-bottom: 3px dashed var(--coral);
-}
-.sep { opacity: .5; letter-spacing: 0; margin: 0 4px; }
-
-.content {
-  padding: 28px 24px 32px;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(217,112,127,.12) 22px, rgba(217,112,127,.12) 23px),
-    repeating-linear-gradient(90deg, transparent, transparent 22px, rgba(217,112,127,.12) 22px, rgba(217,112,127,.12) 23px),
-    var(--cream);
-  text-align: center;
-}
-
-.screen-hidden { display: none; }
-
-.title {
-  margin: 0 0 20px;
-  font-size: 21px;
-  color: var(--ink);
-  line-height: 1.35;
-}
-
-.cat-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 26px;
-}
-.cat {
-  width: 130px;
-  height: auto;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,.15));
-}
-.cat-wrap-happy .cat { width: 170px; }
-
-.buttons {
-  position: relative;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-
-.btn {
-  border: none;
-  border-radius: 10px;
-  padding: 12px 26px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.btn-yes {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 6px 0 #b83b52;
-}
-.btn-yes:hover {
-  transform: scale(1.08);
-}
-.btn-yes:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #b83b52;
-}
-
-.btn-no {
-  position: absolute;
-  background: #fff;
-  color: var(--coral);
-  border: 2px solid var(--coral);
-  left: 50%;
-  transform: translateX(-70px);
-}
-
-.btn-again {
-  margin-top: 6px;
-  background: transparent;
-  border: 2px solid var(--coral);
-  color: var(--coral);
-  border-radius: 10px;
-  padding: 8px 18px;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.btn-again:hover { background: var(--pink-ribbon); }
-
-.message {
-  font-size: 14px;
-  color: #6b4a55;
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
-
-/* corazones explosion al hacer click en SI */
-.burst-heart {
+.ground {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  font-size: 20px;
-  pointer-events: none;
-  z-index: 5;
-  animation: burst 1s ease-out forwards;
+  left: 0; right: 0; bottom: 0;
+  height: 14vh;
+  background: linear-gradient(to bottom, var(--ground) 0%, var(--ground-dark) 100%);
+  z-index: 1;
+  border-top: 3px solid rgba(0,0,0,.08);
 }
-@keyframes burst {
-  to {
-    transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(180deg);
-    opacity: 0;
-  }
+
+#tulipSvg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* ---------- Estados de reposo (JS anima desde aquí con Web Animations API) ---------- */
+.stem {
+  fill: none;
+  stroke: var(--stem);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 450;
+  stroke-dashoffset: 450;
+}
+
+.leaf {
+  fill: var(--leaf);
+  opacity: 0;
+  transform: scale(0);
+}
+#leafLeft  { transform-origin: 200px 560px; }
+#leafRight { transform-origin: 200px 610px; }
+
+.flower-group {
+  transform: translate(200px, 690px) scale(.15);
+  transform-origin: 0 0;
+}
+
+.petal {
+  transform-origin: 0px 0px;
+  opacity: 0;
+  transform: scale(.15);
+}
+.petal-back  { fill: var(--petal-outer); }
+.petal-mid   { fill: var(--petal-mid); }
+.petal-front { fill: var(--petal-front); }
+
+.fallback-hint {
+  position: fixed;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: rgba(60,30,20,.55);
+  font-size: 13px;
+  letter-spacing: .5px;
+  opacity: 0;
+  transition: opacity 1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.fallback-hint.visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fallback-hint { display: none; }
 }

@@ -3,81 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOVE</title>
-<link rel="stylesheet" href="style.css">
+<title>Tulipán</title>
+<link rel="stylesheet" href="tulip.css">
 </head>
 <body>
 
-  <div class="floating-hearts" id="bgHearts"></div>
+  <div class="sky"></div>
+  <div class="ground"></div>
 
-  <div class="window">
-    <div class="titlebar">
-      <div class="dots">
-        <span class="dot dot-red"></span>
-        <span class="dot dot-yellow"></span>
-        <span class="dot dot-green"></span>
-      </div>
-      <span class="window-title">LOVE</span>
-      <span class="window-spacer"></span>
-    </div>
+  <svg id="tulipSvg" viewBox="0 0 400 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
 
-    <div class="ribbon">
-      <span>♥</span><span class="sep">•</span><span>♥</span><span class="sep">•</span><span>♥</span>
-    </div>
+    <!-- tallo -->
+    <path id="stem" class="stem" d="M200,690 C200,690 195,500 200,320" />
 
-    <div class="content" id="content">
+    <!-- hoja izquierda -->
+    <path id="leafLeft" class="leaf" d="M200,560 C140,555 95,505 90,440 C160,450 198,495 200,560 Z" />
 
-      <!-- PASO 1: pregunta -->
-      <div class="screen" id="screenAsk">
-        <h1 class="title" id="questionText">Vdd que quieres 2 hijos uno llamado leo y el otro messi 🙈</h1>
+    <!-- hoja derecha -->
+    <path id="leafRight" class="leaf" d="M200,610 C260,600 305,545 308,478 C238,492 202,540 200,610 Z" />
 
-        <div class="cat-wrap">
-          <svg id="catSvg" class="cat" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- orejas -->
-            <polygon points="15,30 30,5 40,35" fill="var(--ink)"/>
-            <polygon points="105,30 90,5 80,35" fill="var(--ink)"/>
-            <!-- cabeza -->
-            <rect x="10" y="30" width="100" height="55" rx="18" fill="var(--ink)"/>
-            <!-- ojos -->
-            <rect x="30" y="48" width="16" height="16" fill="#fff"/>
-            <rect x="74" y="48" width="16" height="16" fill="#fff"/>
-            <!-- corazon nariz -->
-            <path d="M60 78 L50 68 a7 7 0 0 1 10 -10 a7 7 0 0 1 10 10 Z" fill="var(--accent)"/>
-          </svg>
-        </div>
+    <!-- grupo de la flor: se mueve junto con la punta del tallo -->
+    <g id="flowerGroup" class="flower-group">
 
-        <div class="buttons">
-          <button class="btn btn-no" id="btnNo">No</button>
-          <button class="btn btn-yes" id="btnYes">Sí</button>
-        </div>
-      </div>
+      <!-- pétalos traseros -->
+      <path class="petal petal-back" data-side="left"  d="M0,0 C-55,-15 -70,-95 -25,-150 C-8,-170 8,-170 0,-150 Z" />
+      <path class="petal petal-back" data-side="right" d="M0,0 C55,-15 70,-95 25,-150 C8,-170 -8,-170 0,-150 Z" />
 
-      <!-- PASO 2: resultado -->
-      <div class="screen screen-hidden" id="screenYes">
-        <h1 class="title">¡Yayyy! Te amo ♡</h1>
+      <!-- pétalos laterales -->
+      <path class="petal petal-mid" data-side="left"  d="M0,0 C-40,-10 -55,-100 -14,-165 C-4,-180 4,-180 0,-165 Z" />
+      <path class="petal petal-mid" data-side="right" d="M0,0 C40,-10 55,-100 14,-165 C4,-180 -4,-180 0,-165 Z" />
 
-        <div class="cat-wrap cat-wrap-happy">
-          <svg class="cat" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="15,30 30,5 40,35" fill="var(--ink)"/>
-            <polygon points="45,30 60,5 70,35" fill="var(--ink)"/>
-            <polygon points="115,30 100,5 90,35" fill="var(--ink)"/>
-            <polygon points="145,30 130,5 120,35" fill="var(--ink)"/>
-            <rect x="10" y="30" width="60" height="55" rx="18" fill="var(--ink)"/>
-            <rect x="90" y="30" width="60" height="55" rx="18" fill="var(--ink)"/>
-            <rect x="25" y="48" width="14" height="14" fill="#fff"/>
-            <rect x="105" y="48" width="14" height="14" fill="#fff"/>
-            <path d="M80 78 L68 65 a9 9 0 0 1 12 -12 a9 9 0 0 1 12 12 Z" fill="var(--accent)"/>
-          </svg>
-        </div>
+      <!-- pétalo frontal central -->
+      <path class="petal petal-front" d="M0,0 C-30,-5 -34,-110 0,-175 C34,-110 30,-5 0,0 Z" />
 
-        <p class="message" id="finalMessage">Escribe aquí tu mensaje final personalizado.</p>
+    </g>
+  </svg>
 
-        <button class="btn btn-again" id="btnAgain">Volver a preguntar</button>
-      </div>
+  <div class="fallback-hint" id="replayHint">toca para volver a florecer</div>
 
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <script src="tulip.js"></script>
 </body>
 </html>

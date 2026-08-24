@@ -1,101 +1,138 @@
 // =========================================================
-// PLANTILLA "LOVE" — edita las 2 líneas marcadas con ✏️ abajo
+// Animación del tulipán, controlada 100% por JavaScript
+// (Web Animations API — más confiable en SVG que CSS puro)
 // =========================================================
 
-// ✏️ 1) Cambia la pregunta inicial
-const QUESTION_TEXT = "Vdd que quieres 2 hijos uno llamado leo y el otro messi🙈";
+const EASE = 'cubic-bezier(.3,.8,.3,1)';
+const EASE_BLOOM = 'cubic-bezier(.25,.9,.3,1.15)';
 
-// ✏️ 2) Cambia el mensaje final que aparece al presionar "Sí"
-const FINAL_MESSAGE = "te amo gracias por darme a leo";
+const stem = document.getElementById('stem');
+const leafLeft = document.getElementById('leafLeft');
+const leafRight = document.getElementById('leafRight');
+const flowerGroup = document.getElementById('flowerGroup');
+const hint = document.getElementById('replayHint');
 
-document.getElementById('questionText').textContent = QUESTION_TEXT;
-document.getElementById('finalMessage').textContent = FINAL_MESSAGE;
+const petals = {
+  backLeft:  document.querySelector('.petal-back[data-side="left"]'),
+  backRight: document.querySelector('.petal-back[data-side="right"]'),
+  midLeft:   document.querySelector('.petal-mid[data-side="left"]'),
+  midRight:  document.querySelector('.petal-mid[data-side="right"]'),
+  front:     document.querySelector('.petal-front'),
+};
 
-// ---------- Fondo de corazones flotando ----------
-const bgHearts = document.getElementById('bgHearts');
-const HEART_COUNT = 18;
-for (let i = 0; i < HEART_COUNT; i++) {
-  const h = document.createElement('span');
-  h.textContent = '♥';
-  h.style.left = Math.random() * 100 + '%';
-  h.style.fontSize = (12 + Math.random() * 16) + 'px';
-  h.style.animationDuration = (6 + Math.random() * 8) + 's';
-  h.style.animationDelay = (Math.random() * 8) + 's';
-  bgHearts.appendChild(h);
+let swayAnim = null;
+let running = false;
+
+function cancelAll() {
+  [stem, leafLeft, leafRight, flowerGroup, ...Object.values(petals)]
+    .forEach(el => el.getAnimations().forEach(a => a.cancel()));
+  if (swayAnim) { swayAnim.cancel(); swayAnim = null; }
 }
 
-// ---------- Botón "No" que esquiva el cursor ----------
-const btnNo = document.getElementById('btnNo');
-const buttonsWrap = document.querySelector('.buttons');
+function bloom() {
+  if (running) return;
+  running = true;
+  cancelAll();
+  hint.classList.remove('visible');
 
-function dodge() {
-  const wrapRect = buttonsWrap.getBoundingClientRect();
-  const btnRect = btnNo.getBoundingClientRect();
-  const maxX = wrapRect.width - btnRect.width;
-  const maxY = 40; // rango vertical de movimiento
+  // 1) tallo creciendo
+  stem.animate(
+    [{ strokeDashoffset: 450 }, { strokeDashoffset: 0 }],
+    { duration: 1600, easing: EASE, fill: 'forwards' }
+  );
 
-  const randX = Math.random() * maxX - maxX / 2;
-  const randY = Math.random() * maxY - maxY / 2;
+  // 2) la flor sube junto con la punta del tallo
+  flowerGroup.animate(
+    [
+      { transform: 'translate(200px,690px) scale(.15)' },
+      { transform: 'translate(200px,320px) scale(1)' }
+    ],
+    { duration: 1600, easing: EASE, fill: 'forwards' }
+  );
 
-  btnNo.style.position = 'absolute';
-  btnNo.style.left = `calc(50% + ${randX}px)`;
-  btnNo.style.top = `${randY}px`;
-  btnNo.style.transform = 'translateX(-50%)';
+  // 3) hojas desenrollándose
+  leafLeft.animate(
+    [
+      { transform: 'scale(0) rotate(-25deg)', opacity: 0 },
+      { transform: 'scale(1.1) rotate(4deg)',  opacity: 1, offset: .6 },
+      { transform: 'scale(1) rotate(0deg)',    opacity: 1 }
+    ],
+    { duration: 1000, delay: 700, easing: 'ease-out', fill: 'forwards' }
+  );
+
+  leafRight.animate(
+    [
+      { transform: 'scale(0) rotate(25deg)', opacity: 0 },
+      { transform: 'scale(1.1) rotate(-4deg)', opacity: 1, offset: .6 },
+      { transform: 'scale(1) rotate(0deg)',    opacity: 1 }
+    ],
+    { duration: 1000, delay: 1000, easing: 'ease-out', fill: 'forwards' }
+  );
+
+  // 4) pétalos abriendo en capas (traseros -> laterales -> frontal)
+  petals.backLeft.animate(
+    [
+      { transform: 'rotate(0deg) scale(.15)', opacity: 0 },
+      { transform: 'rotate(-34deg) scale(1.05)', opacity: 1, offset: .7 },
+      { transform: 'rotate(-26deg) scale(1)', opacity: 1 }
+    ],
+    { duration: 1400, delay: 1500, easing: EASE_BLOOM, fill: 'forwards' }
+  );
+
+  petals.backRight.animate(
+    [
+      { transform: 'rotate(0deg) scale(.15)', opacity: 0 },
+      { transform: 'rotate(34deg) scale(1.05)', opacity: 1, offset: .7 },
+      { transform: 'rotate(26deg) scale(1)', opacity: 1 }
+    ],
+    { duration: 1400, delay: 1500, easing: EASE_BLOOM, fill: 'forwards' }
+  );
+
+  petals.midLeft.animate(
+    [
+      { transform: 'rotate(0deg) scale(.15)', opacity: 0 },
+      { transform: 'rotate(-18deg) scale(1.05)', opacity: 1, offset: .7 },
+      { transform: 'rotate(-13deg) scale(1)', opacity: 1 }
+    ],
+    { duration: 1400, delay: 1650, easing: EASE_BLOOM, fill: 'forwards' }
+  );
+
+  petals.midRight.animate(
+    [
+      { transform: 'rotate(0deg) scale(.15)', opacity: 0 },
+      { transform: 'rotate(18deg) scale(1.05)', opacity: 1, offset: .7 },
+      { transform: 'rotate(13deg) scale(1)', opacity: 1 }
+    ],
+    { duration: 1400, delay: 1650, easing: EASE_BLOOM, fill: 'forwards' }
+  );
+
+  const frontAnim = petals.front.animate(
+    [
+      { transform: 'scale(.1)', opacity: 0 },
+      { transform: 'scale(1.08)', opacity: 1, offset: .7 },
+      { transform: 'scale(1)', opacity: 1 }
+    ],
+    { duration: 1400, delay: 1800, easing: EASE_BLOOM, fill: 'forwards' }
+  );
+
+  // 5) al terminar: balanceo suave continuo + habilitar "tocar para reiniciar"
+  frontAnim.onfinish = () => {
+    swayAnim = flowerGroup.animate(
+      [
+        { transform: 'translate(200px,320px) rotate(0deg)' },
+        { transform: 'translate(200px,320px) rotate(2deg)' },
+        { transform: 'translate(200px,320px) rotate(0deg)' }
+      ],
+      { duration: 4000, easing: 'ease-in-out', iterations: Infinity }
+    );
+    hint.classList.add('visible');
+    running = false;
+  };
 }
 
-// se mueve cuando el mouse se acerca
-buttonsWrap.addEventListener('mousemove', (e) => {
-  const btnRect = btnNo.getBoundingClientRect();
-  const cx = btnRect.left + btnRect.width / 2;
-  const cy = btnRect.top + btnRect.height / 2;
-  const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-  if (dist < 90) dodge();
-});
+// primer florecimiento al cargar
+bloom();
 
-// soporte táctil: si lo tocan, también escapa
-btnNo.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  dodge();
-});
-
-// por si alguna vez lo "atrapan", igual no deja avanzar
-btnNo.addEventListener('click', (e) => {
-  e.preventDefault();
-  dodge();
-});
-
-// ---------- Botón "Sí": explosión de corazones + cambio de pantalla ----------
-const btnYes = document.getElementById('btnYes');
-const screenAsk = document.getElementById('screenAsk');
-const screenYes = document.getElementById('screenYes');
-const btnAgain = document.getElementById('btnAgain');
-
-function rainHearts() {
-  const symbols = ['♥', '💗', '💕'];
-  for (let i = 0; i < 26; i++) {
-    const h = document.createElement('span');
-    h.className = 'burst-heart';
-    h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 120 + Math.random() * 260;
-    h.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-    h.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
-    h.style.color = `hsl(${340 + Math.random() * 20}, 80%, ${55 + Math.random() * 15}%)`;
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 1000);
-  }
-}
-
-btnYes.addEventListener('click', () => {
-  rainHearts();
-  screenAsk.classList.add('screen-hidden');
-  screenYes.classList.remove('screen-hidden');
-});
-
-btnAgain.addEventListener('click', () => {
-  screenYes.classList.add('screen-hidden');
-  screenAsk.classList.remove('screen-hidden');
-  btnNo.style.left = '';
-  btnNo.style.top = '';
-  btnNo.style.transform = 'translateX(-70px)';
-});
+// tocar/clic en cualquier parte reinicia la animación
+document.addEventListener('click', bloom);
+document.addEventListener('touchstart', bloom, { passive: true });
