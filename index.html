@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOVE</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="floating-hearts" id="bgHearts"></div>
+
+  <div class="window">
+    <div class="titlebar">
+      <div class="dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <span class="window-title">LOVE</span>
+      <span class="window-spacer"></span>
+    </div>
+
+    <div class="ribbon">
+      <span>♥</span><span class="sep">•</span><span>♥</span><span class="sep">•</span><span>♥</span>
+    </div>
+
+    <div class="content" id="content">
+
+      <!-- PASO 1: pregunta -->
+      <div class="screen" id="screenAsk">
+        <h1 class="title" id="questionText">Vdd que quieres 2 hijos uno llamado leo y el otro messi 🙈</h1>
+
+        <div class="cat-wrap">
+          <svg id="catSvg" class="cat" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- orejas -->
+            <polygon points="15,30 30,5 40,35" fill="var(--ink)"/>
+            <polygon points="105,30 90,5 80,35" fill="var(--ink)"/>
+            <!-- cabeza -->
+            <rect x="10" y="30" width="100" height="55" rx="18" fill="var(--ink)"/>
+            <!-- ojos -->
+            <rect x="30" y="48" width="16" height="16" fill="#fff"/>
+            <rect x="74" y="48" width="16" height="16" fill="#fff"/>
+            <!-- corazon nariz -->
+            <path d="M60 78 L50 68 a7 7 0 0 1 10 -10 a7 7 0 0 1 10 10 Z" fill="var(--accent)"/>
+          </svg>
+        </div>
+
+        <div class="buttons">
+          <button class="btn btn-no" id="btnNo">No</button>
+          <button class="btn btn-yes" id="btnYes">Sí</button>
+        </div>
+      </div>
+
+      <!-- PASO 2: resultado -->
+      <div class="screen screen-hidden" id="screenYes">
+        <h1 class="title">¡Yayyy! Te amo ♡</h1>
+
+        <div class="cat-wrap cat-wrap-happy">
+          <svg class="cat" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="15,30 30,5 40,35" fill="var(--ink)"/>
+            <polygon points="45,30 60,5 70,35" fill="var(--ink)"/>
+            <polygon points="115,30 100,5 90,35" fill="var(--ink)"/>
+            <polygon points="145,30 130,5 120,35" fill="var(--ink)"/>
+            <rect x="10" y="30" width="60" height="55" rx="18" fill="var(--ink)"/>
+            <rect x="90" y="30" width="60" height="55" rx="18" fill="var(--ink)"/>
+            <rect x="25" y="48" width="14" height="14" fill="#fff"/>
+            <rect x="105" y="48" width="14" height="14" fill="#fff"/>
+            <path d="M80 78 L68 65 a9 9 0 0 1 12 -12 a9 9 0 0 1 12 12 Z" fill="var(--accent)"/>
+          </svg>
+        </div>
+
+        <p class="message" id="finalMessage">Escribe aquí tu mensaje final personalizado.</p>
+
+        <button class="btn btn-again" id="btnAgain">Volver a preguntar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
